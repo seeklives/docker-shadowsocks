@@ -1,0 +1,22 @@
+# https://caddyserver.com/docs/caddyfile/directives
+
+https://your.domain.example {
+    log  {
+        output file /var/log/access.log {
+            roll_size 10MiB
+            roll_keep 10
+            roll_keep_for 30d
+        }
+    }
+    encode gzip
+
+    root * /usr/share/caddy/
+#    try_files {path} /index.html
+
+    tls your-email-address
+
+    reverse_proxy /ray shadowsocks-libev:8588 {
+        header_up -Origin
+    }
+
+}

@@ -1,0 +1,45 @@
+
+version: '3'
+
+services:
+  shadowsocks-libev-stand-alone:
+    image: teddysun/shadowsocks-libev
+    restart: always
+    ports:
+      - 12782:8588
+      - 12782:8588/udp
+    volumes:
+      - ./etc/v2ray-server-config.json:/etc/shadowsocks-libev/config.json
+    networks:
+      ss_net:
+    logging:
+      driver: journald
+  shadowsocks-libev:
+    image: teddysun/shadowsocks-libev
+    restart: always
+    volumes:
+      - ./etc/v2ray-caddy-config.json:/etc/shadowsocks-libev/config.json
+    networks:
+      ss_net:
+    logging:
+      driver: journald
+  caddy:
+    image: caddy
+    restart: always
+    ports:
+      - 443:443
+    volumes:
+      - ./etc/Caddyfile:/etc/caddy/Caddyfile
+      - ./etc/index.html:/usr/share/caddy/index.html
+      - ./var/caddy/data:/data
+      - ./var/caddy/config:/config
+      - ./var/caddy/log:/var/log
+    networks:
+      ss_net:
+    logging:
+      driver: journald
+
+networks:
+  ss_net:
+    driver: bridge
+

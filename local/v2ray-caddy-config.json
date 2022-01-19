@@ -1,0 +1,11 @@
+{
+  "server" : "your.domain.example",
+  "server_port" : 443,
+  "password" : "your-password",
+  "method" : "aes-256-gcm",
+  "timeout" : 60,
+  "local_address" : "127.0.0.1",
+  "local_port" : 1086,
+  "plugin" : "plugins/v2ray-plugin",
+  "plugin_opts" : "tls;host=your.domain.example;path=/ray"
+}
